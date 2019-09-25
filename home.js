@@ -5,12 +5,13 @@ import { ScrollView,
 			StyleSheet,
 			Dimensions,
 			TouchableOpacity,
-			TextInput
+			TextInput,
+			Image
 		} from 'react-native';
 var {height, width} = Dimensions.get('window');
 import { Card } from 'native-base'
 import { connect } from 'react-redux';
-import { addTodo, deleteTodo, chechTodo, searchTodo } from './reducer';
+import { addTodo, deleteTodo, chechTodo, } from './reducer';
 
 
 class HomeScreen extends Component{
@@ -21,11 +22,19 @@ class HomeScreen extends Component{
     super(props);
     this.state={
     	searchfilter: '',
+    	data: [],
     };
     this.onSearch=this.onSearch.bind(this);
   }
+  UNSAFE_componentWillReceiveProps(props){
+  	if(props.todos){
+  		this.setState({data: props.todos})
+  	}
+  }
   onSearch(){
-  	this.props.searchTodo(this.state.searchfilter);
+  	var temp = this.state.data.filter((todo)=>{
+  		return todo.title.includes(this.state.searchfilter)})
+  	this.setState({data: temp});	
   }
   onChecktask(name){
   	console.log(name);
@@ -38,7 +47,7 @@ class HomeScreen extends Component{
   
   render(){
   	console.log(this.props.todos);
-  	console.log("im");
+  	console.log(this.state.data);
   	return(
   		<ScrollView style={{flex: 1}}>
   		<View style={ styles.viewstyle }>
@@ -50,11 +59,13 @@ class HomeScreen extends Component{
           	placeholderTextColor='#808080'
           	onBlur={this.onSearch}
           	/>
-            
+	        <TouchableOpacity  onPress={ this.onSearch }>
+		      <Image source={ require('./search.png') } style={{ height: 20, width: 20, marginTop: 3, marginRight: 5 }} />
+		    </TouchableOpacity>    
          </View>
          <View style={{marginTop: 10}}>
-         	{ this.props.todos?
-         		this.props.todos.map((todo, index)=>{
+         	{ this.state.data?
+         		this.state.data.map((todo, index)=>{
          			return <Card key={index} style={styles.cardstyle}>
          				<Text style={{fontSize: 18, textAlign: 'center', fontWeight: '600', color: '#000000'}}>{todo.title}</Text>
          				<View style={{flexDirection: 'row', justifyContent: 'space-between', marginLeft: 5, marginTop: 4}}>
@@ -83,22 +94,21 @@ const styles = StyleSheet.create({
 	  fontSize: 18,
 	  textAlignVertical: 'top',
 	  textAlign: 'left',
-	  fontFamily: 'Din Condensed',
-	  padding: 7,
 	  marginLeft: 10,
 	  paddingBottom: 6,
-	  width: width/1.1
 	},
 	viewstyle: {
 	  backgroundColor: 'white',
 	  marginLeft: 5,
 	  marginRight: 5,
 	  flexDirection: 'row',
+	  justifyContent: 'space-between',
 	  alignSelf: 'center',
 	  borderRadius: 5,
-	  borderWidth: 2,
-	  borderColor: '#F2F2F2',
-	  marginTop: 5
+	  borderWidth: 1,
+	  borderColor: '#000000',
+	  marginTop: 5,
+	  width: width/1.05
 	},
 	cardstyle:{
 	  padding:10, 
@@ -141,7 +151,6 @@ function mapDispatchToProps (dispatch) {
     addTodo: (name, check) => dispatch(addTodo(name, check)),
     deleteTodo: (name) => dispatch(deleteTodo(name)),
     chechTodo: (name) => dispatch(chechTodo(name)),
-    searchTodo: (name)=>dispatch(searchTodo(name)),
   }
 }
 export default connect(mapStateToProps,

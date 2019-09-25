@@ -1,7 +1,7 @@
 const ADD_TODO = 'TODO/TODO/ADD_TODO';
 const CHECK_TODO = 'TODO/TODO/CHECK_TODO';
 const DELETE_TODO = 'TODO/TODO/DELETE_TODO';
-const SEARCH_TODO = 'TODO/TODO/SEARCH_TODO';
+// const SEARCH_TODO = 'TODO/TODO/SEARCH_TODO';
 
 
 
@@ -36,17 +36,17 @@ export default function todo_reducer(state = [], action) {
                 return todo.title != action.name;
             })
         }
-    case SEARCH_TODO: 
-        console.log(...state.todos);
-        var todos = [...state.todos]
-        var filtered = todos.filter(todo=>{
-            console.log(todo.title)
-            return todo.title.includes(action.name)})
+    // case SEARCH_TODO: 
+    //     console.log(...state.todos);
+    //     var todos = [...state.todos]
+    //     var filtered = todos.filter(todo=>{
+    //         console.log(todo.title)
+    //         return todo.title.includes(action.name)})
 
-        return {
-            ...state,
-            todos: filtered,
-            } 
+    //     return {
+    //         ...state,
+    //         todos: filtered,
+    //         } 
     default:
       return state;
   }
@@ -74,9 +74,9 @@ export function deleteTodo(name){
         name,        
     }
 }
-export function searchTodo(name){
-    return {
-        type: SEARCH_TODO,
-        name,        
-    }
-}
+// export function searchTodo(name){
+//     return {
+//         type: SEARCH_TODO,
+//         name,        
+//     }
+// }

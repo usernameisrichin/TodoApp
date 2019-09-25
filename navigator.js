@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { createBottomTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 import HomeScreen from './home'
 import AddTodo from './addtodo'
@@ -13,9 +13,9 @@ const TabNavigator = createBottomTabNavigator({
     path: '/',
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarLabel: 'Home', 
-      // tabBarIcon:({tintColor})=>(  
-      //   <Icon name="ios-home" color={tintColor} size={25}/>  
-      // )  
+      tabBarIcon:({tintColor})=>(  
+        <Icon name="ios-home" color={tintColor} size={25}/>  
+      )  
     }),
   },
   Add: {
@@ -23,9 +23,9 @@ const TabNavigator = createBottomTabNavigator({
     path: '/',
     navigationOptions: ({navigation}) => ({
         tabBarLabel: 'Add',
-        // tabBarIcon:({tintColor})=>(  
-        //       <Icon name="ios-add" color={tintColor} size={25}/>  
-        //   )  
+        tabBarIcon:({tintColor})=>(  
+              <Icon name="ios-add" color={tintColor} size={25}/>  
+          )  
       }),
   },
 },
